@@ -6,11 +6,11 @@ import java.util.List;
 public class Machine {
 
     public void lancer() {
-        Rouleau rouleau1 = new Rouleau(8);
-        Rouleau rouleau2 = new Rouleau(8);
-        Rouleau rouleau3 = new Rouleau(8);
-        Rouleau rouleau4 = new Rouleau(8);
-        Rouleau rouleau5 = new Rouleau(8);
+        Rouleau rouleau1 = new Rouleau(30);
+        Rouleau rouleau2 = new Rouleau(30);
+        Rouleau rouleau3 = new Rouleau(30);
+        Rouleau rouleau4 = new Rouleau(30);
+        Rouleau rouleau5 = new Rouleau(41);
 
         List<Symbole[]> lignes = new ArrayList<>();
 

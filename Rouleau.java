@@ -11,11 +11,7 @@ public class Rouleau {
     public Rouleau(int taille) {
         this.taille = taille;
         this.position = 0;
-        this.listeSymboles = new Symbole[taille];
-        // Initialiser la liste de symboles avec des symboles vides
-        for (int i = 0; i < taille; i++) {
-            this.listeSymboles[i] = new Symbole("");
-        }
+        this.listeSymboles = new Symbole[8];
         this.initialiserSymboles(); // Appel de la méthode d'initialisation des symboles
     }
     
@@ -38,17 +34,16 @@ public class Rouleau {
     
     public Symbole getSymboleAleatoire() {
         Random random = new Random();
-        int index = random.nextInt(taille);
+        int index = random.nextInt(8);
         return listeSymboles[index];
     }
 
     // Méthode pour récupérer la ligne de symboles affichée
     public Symbole[] getLigne() {
-        Symbole[] ligne = new Symbole[5];
-        ligne[0] = this.listeSymboles[(this.position + this.taille - 2) % this.taille];
-        ligne[1] = this.listeSymboles[(this.position + this.taille - 1) % this.taille];
-        ligne[2] = this.listeSymboles[this.position];
+        Symbole[] ligne = new Symbole[this.taille];
+        for (int i = 0; i < this.taille; i++) {
+            ligne[i] = this.getSymboleAleatoire();
+        }
         return ligne;
     }
 }
-
