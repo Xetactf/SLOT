@@ -21,7 +21,7 @@ public class Rouleau {
     
     public void initialiserSymboles() {
         this.listeSymboles[0] = new Symbole("Bar");
-        this.listeSymboles[1] = new Symbole("seven");
+        this.listeSymboles[1] = new Symbole("Seven");
         this.listeSymboles[2] = new Symbole("Cherry");
         this.listeSymboles[3] = new Symbole("Plum");
         this.listeSymboles[4] = new Symbole("Bell");
@@ -44,7 +44,7 @@ public class Rouleau {
 
     // Méthode pour récupérer la ligne de symboles affichée
     public Symbole[] getLigne() {
-        Symbole[] ligne = new Symbole[3];
+        Symbole[] ligne = new Symbole[5];
         ligne[0] = this.listeSymboles[(this.position + this.taille - 2) % this.taille];
         ligne[1] = this.listeSymboles[(this.position + this.taille - 1) % this.taille];
         ligne[2] = this.listeSymboles[this.position];
