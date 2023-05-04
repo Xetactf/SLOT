@@ -1,11 +1,12 @@
 
-package moneyGame;
+package slot;
 
 public class Main {
 	public static void main(String[] args) {
-		Machine machine1 = new Machine();
-		machine1.lancer();
-			
+		Machine machine = new Machine();
+		User user = new User(machine);
+		user.printSolde();
+		user.lancerMachine();
 	}
 
 }

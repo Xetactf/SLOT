@@ -1,149 +1,133 @@
-package moneyGame;
+
+package slot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Machine {
+    private List<Rouleau> rouleaux;
+    private Symbole lastVictorySymbol;
+    private int lastVictoryCount;
+    private List<Symbole> lastVictoryList;
+    private int lastGameFreeSpinCount;
 
-    public void lancer() {
-        Rouleau rouleau1 = new Rouleau(30);
-        Rouleau rouleau2 = new Rouleau(30);
-        Rouleau rouleau3 = new Rouleau(30);
-        Rouleau rouleau4 = new Rouleau(30);
-        Rouleau rouleau5 = new Rouleau(41);
+    public Machine() {
+        this.rouleaux = new ArrayList<Rouleau>();
+        this.rouleaux.add(new Rouleau(30, true, true));
+        this.rouleaux.add(new Rouleau(30, true, false));
+        this.rouleaux.add(new Rouleau(30, false, true));
+        this.rouleaux.add(new Rouleau(30, true, false));
+        this.rouleaux.add(new Rouleau(45, true, true));
+    }
 
-        List<Symbole[]> lignes = new ArrayList<>();
-
+    public void print3lines() {
         for (int i = 0; i < 3; i++) {
-            rouleau1.tourner();
-            rouleau2.tourner();
-            rouleau3.tourner();
-            rouleau4.tourner();
-            rouleau5.tourner();
-
-            Symbole[] ligne = { rouleau1.getSymboleAleatoire(), rouleau2.getSymboleAleatoire(),
-                    rouleau3.getSymboleAleatoire(), rouleau4.getSymboleAleatoire(), rouleau5.getSymboleAleatoire() };
-
-            lignes.add(ligne);
-
-            for (Symbole symbole : ligne) {
-                System.out.printf("%-10s|", symbole.getNom());
+            for (Rouleau rouleau : rouleaux) {
+                System.out.print(rouleau.getSymboleAtPosition(i).getNom() + " | ");
             }
             System.out.println();
         }
-        System.out.println("\nGain total : " + verifierGain(lignes, 2000));
+    }
+
+    public void roll() {
+        Random random = new Random();
+        int nombreAleatoire = random.nextInt(16) + 5;
+
+        for (Rouleau rouleau : rouleaux) {
+            rouleau.roll(nombreAleatoire);
+        }
     }
 
 
-    public double verifierGain(List<Symbole[]> lignes, int mise) {
-
-        int gainMise;
-
-        if (mise == 2000) {
-            gainMise = 1;
-        } else if (mise == 4000) {
-            gainMise = 2;
-        } else if (mise == 6000) {
-            gainMise = 3;
-        } else if (mise == 10000) {
-            gainMise = 5;
-        } else {
-            gainMise = 0;
-
+    public void detecterVictoire() {
+        //3 lines to matrix
+        Symbole[][] matrix = new Symbole[3][5];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < rouleaux.size(); j++) {
+                matrix[i][j] = rouleaux.get(j).getSymboleAtPosition(i);
+            }
         }
 
-        double gainTotal = 0.0;
-        for (Symbole[] ligne : lignes) {
-            int[] compteur = new int[8];
+        //revert matrix
+        Symbole[][] revertedMatrix = new Symbole[5][3];
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 3; j++) {
+                revertedMatrix[i][j] = matrix[j][i];
+            }
+        }
+        this.lastGameFreeSpinCount = 0;
+        this.lastVictoryCount = 0;
+        this.lastVictorySymbol = null;
+        this.lastVictoryList = new ArrayList<Symbole>();
 
-            for (Symbole symbole : ligne) {
-                switch (symbole.getNom()) {
-                case "Bar":
-                    compteur[0]++;
-                    break;
-                case "Seven":
-                    compteur[1]++;
-                    break;
-                case "Cherry":
-                    compteur[2]++;
-                    break;
-                case "Plum":
-                    compteur[3]++;
-                    break;
-                case "Bell":
-                    compteur[4]++;
-                    break;
-                case "Melon":
-                    compteur[5]++;
-                    break;
-                case "Orange":
-                    compteur[6]++;
-                    break;
-                case "Lemon":
-                    compteur[7]++;
+        for(int x = 0; x < 3; x++) {
+            for(int y = 0; y < 3; y++) {
+
+                Symbole symbole = revertedMatrix[x][y];
+                int count = 1;
+                boolean breakd = false;
+                ArrayList<Symbole> list = new ArrayList<Symbole>();
+                list.add(symbole);
+                for(int z = x+1; z < 5; z++) {
+                    if(breakd) {
+                        break;
+                    }
+                    for(int a = 0; a<3; a++) {
+                        if(revertedMatrix[z][a].getId() == symbole.getId() || revertedMatrix[z][a].getId() == 102) {
+                            count ++;
+                            list.add(revertedMatrix[z][a]);
+                            if(count > this.lastVictoryCount) {
+                                this.lastVictoryCount = count;
+                                this.lastVictorySymbol = symbole;
+                                this.lastVictoryList = list;
+                            }
+                            break;
+                        } else {
+                            if(a == 2) {
+                                breakd = true;
+                                break;
+                            }
+                        }
+                    }
+
+                }
+            }
+        }  
+
+        //Count free symboles
+        int freeCount = 0;
+        for(int x = 0; x < 5; x++) {
+            for(int y = 0; y < 3; y++) {
+                if(revertedMatrix[x][y].getId() == 101) {
+                    freeCount++;
                     break;
                 }
             }
-
-            double gainLigne = 0.0;
-            if (compteur[0] == 5) {
-                gainLigne = 4000 * gainMise;
-            } else if (compteur[0] == 4) {
-                gainLigne = 2000 * gainMise;
-            } else if (compteur[0] == 3) {
-                gainLigne = 1000 * gainMise;;
-            } else if (compteur[1] == 5) {
-                gainLigne = 3000 * gainMise;;
-            } else if (compteur[1] == 4) {
-                gainLigne = 1500 * gainMise;;
-            } else if (compteur[1] == 3) {
-                gainLigne = 750 * gainMise;;
-            } else if (compteur[2] == 5) {
-                gainLigne = 1500 * gainMise;;
-            } else if (compteur[2] == 4) {
-                gainLigne = 750 * gainMise;;
-            } else if (compteur[2] == 3) {
-                gainLigne = 500 * gainMise;;
-            } else if (compteur[3] == 5) {
-                gainLigne = 1500 * gainMise;;
-            } else if (compteur[3] == 4) {
-                gainLigne = 750 * gainMise;;
-            } else if (compteur[3] == 3) {
-                gainLigne = 500 * gainMise;;
-            } else if (compteur[4] == 5) {
-                gainLigne = 1000 * gainMise;;
-            } else if (compteur[4] == 4) {
-                gainLigne = 500 * gainMise;;
-            } else if (compteur[4] == 3) {
-                gainLigne = 300 * gainMise;;
-            } else if (compteur[5] == 5) {
-                gainLigne = 1000 * gainMise;;
-            } else if (compteur[5] == 4) {
-                gainLigne = 500 * gainMise;;
-            } else if (compteur[5] == 3) {
-                gainLigne = 300 * gainMise;;
-            } else if (compteur[6] == 5) {
-                gainLigne = 1000 * gainMise;;
-            } else if (compteur[6] == 4) {
-                gainLigne = 500 * gainMise;;
-            } else if (compteur[6] == 3) {
-                gainLigne = 300 * gainMise;;
-            } else if (compteur[7] == 5) {
-                gainLigne = 1000 * gainMise;
-            } else if (compteur[7] == 4) {
-                gainLigne = 500 * gainMise;
-            } else if (compteur[7] == 3) {
-                gainLigne = 300 * gainMise;
-            } else {
-                gainLigne = 0;
-            }
-            gainTotal += gainLigne;
         }
-        return Math.abs(gainTotal);
+        this.lastGameFreeSpinCount = freeCount;
+        
     }
 
+
+    public Symbole getLastVictorySymbol() {
+        return lastVictorySymbol;
+    }
+
+    public int getLastVictoryCount() {
+        return lastVictoryCount;
+    }
+
+    public List<Symbole> getLastVictoryList() {
+        return lastVictoryList;
+    }
+
+    public int getLastGameFreeSpinCount() {
+        return lastGameFreeSpinCount;
+    }
+    
+    
 }
 
 
-	
 
