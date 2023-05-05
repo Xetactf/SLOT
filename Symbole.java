@@ -11,32 +11,38 @@ public class Symbole {
     private int gain3;
     private boolean freesymb;
     private boolean supersymb;
-
+    
+    //initialisation du Symbole
     public Symbole(boolean freesymb, boolean supersymb) {
         this.freesymb = freesymb;
         this.supersymb = supersymb;
         setData();
     }
-
+    
+    //Si besoin de regenere le symbole, update les données
     public void regeneratesymb(){
         setData();
     }
-
+    
+    //Generation aléatoires d'un symbole
     public void setData(){
         String[] symblist;
+        //Choix en fonction des rouleaux ayaitns des free, bonus, super etc
         if (this.freesymb && this.supersymb) {
-            symblist = new String[]{"Bonus", "Free", "Super", "Bar", "Seven", "Cherry", "Plum", "Bell", "Melon", "Orange", "Lemon"};
+            symblist = new String[]{"Bonus ", " Free ", "Super ", " Bar  ", "Seven ", "Cherry", " Plum ", " Bell ", "Melon ", "Orange", "Lemon "};
         } else if (this.freesymb) {
-            symblist = new String[]{"Bonus", "Free", "Bar", "Seven", "Cherry", "Plum", "Bell", "Melon", "Orange", "Lemon"};
+            symblist = new String[]{"Bonus ", " Free ", " Bar  ", "Seven ", "Cherry", " Plum ", " Bell ", "Melon ", "Orange", "Lemon "};
         } else if (this.supersymb) {
-            symblist = new String[]{"Bonus", "Super", "Bar", "Seven", "Cherry", "Plum", "Bell", "Melon", "Orange", "Lemon"};
+            symblist = new String[]{"Bonus ", "Super ", " Bar  ", "Seven ", "Cherry", " Plum ", " Bell ", "Melon ", "Orange", "Lemon "};
         } else {
-            symblist = new String[]{"Bonus", "Bar", "Seven", "Cherry", "Plum", "Bell", "Melon", "Orange", "Lemon"};
+            symblist = new String[]{"Bonus ", " Bar  ", "Seven ", "Cherry", " Plum ", " Bell ", "Melon ", "Orange", "Lemon "};
         }
+        //Choix aleatoires 
         Random rand = new Random();
         int randomIndex = rand.nextInt(symblist.length);
         this.nom = symblist[randomIndex];
-
+        
+        //Affectation des gains & id par Symbole
         if (nom.contains("Bar")) {
             this.gain5 = 4000;
             this.gain4 = 2000;
@@ -86,26 +92,29 @@ public class Symbole {
         }
 
     }
-
+    
+    //methode qui donne un nom
     public String getNom() {
         return this.nom;
     }
-        
+    
+    //Methode qui retourne un ID
     public int getId() {
         return this.id;
     }
-
+    
+    //Methode qui retourne le Gain si 5
     public int getGain5() {
         return this.gain5;
     }
-
+    
+    //Methode qui retourne le Gain si 4
     public int getGain4() {
         return this.gain4;
     }
-
+    
+    //Methode qui retourne le Gain si 3
     public int getGain3() {
         return this.gain3;
     }
 }
-
-
