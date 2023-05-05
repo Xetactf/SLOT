@@ -3,6 +3,7 @@ package slot;
 import java.util.Scanner;
 
 public class User {
+    // Propriétés de l'utilisateur
     private String username;
     private int balance;
     private Machine machine;
@@ -10,7 +11,8 @@ public class User {
     private Scanner scanner;
     private int multiplicateur;
     private int freeSpins;
-
+    
+    // Constructeur de l'utilisateur
     public User(Machine machine) {
         scanner = new Scanner(System.in);
         System.out.println("Entrez votre nom d'utilisateur: ");
@@ -21,12 +23,15 @@ public class User {
         this.multiplicateur = 1;
         this.freeSpins = 0;
     }
-
+    
+    // Méthode pour imprimer le solde de l'utilisateur
     public void printSolde() {
         System.out.println("Votre solde est de " + this.balance + " credits.");
     }
-
+    
+    // Méthode pour lancer la machine
     public void lancerMachine() {
+       // Si l'utilisateur a des free spins, on les utilise
         if(this.freeSpins > 0) {
             this.freeSpins--;
             System.out.println("\nLancement du free spin Suivant ... ");
@@ -35,7 +40,7 @@ public class User {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
+        // Si l'utilisateur n'a pas de free spins, il doit miser des crédits
         } else {
             this.mise = 0;
             this.multiplicateur = 1;
