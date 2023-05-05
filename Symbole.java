@@ -25,54 +25,54 @@ public class Symbole {
     public void setData(){
         String[] symblist;
         if (this.freesymb && this.supersymb) {
-            symblist = new String[]{"Bonus    ", "Free     ", "Super    ", "Symbole 1", "Symbole 2", "Symbole 3", "Symbole 4", "Symbole 5", "Symbole 6", "Symbole 7", "Symbole 8"};
+            symblist = new String[]{"Bonus", "Free", "Super", "Bar", "Seven", "Cherry", "Plum", "Bell", "Melon", "Orange", "Lemon"};
         } else if (this.freesymb) {
-            symblist = new String[]{"Bonus    ", "Free     ", "Symbole 1", "Symbole 2", "Symbole 3", "Symbole 4", "Symbole 5", "Symbole 6", "Symbole 7", "Symbole 8"};
+            symblist = new String[]{"Bonus", "Free", "Bar", "Seven", "Cherry", "Plum", "Bell", "Melon", "Orange", "Lemon"};
         } else if (this.supersymb) {
-            symblist = new String[]{"Bonus    ", "Super    ", "Symbole 1", "Symbole 2", "Symbole 3", "Symbole 4", "Symbole 5", "Symbole 6", "Symbole 7", "Symbole 8"};
+            symblist = new String[]{"Bonus", "Super", "Bar", "Seven", "Cherry", "Plum", "Bell", "Melon", "Orange", "Lemon"};
         } else {
-            symblist = new String[]{"Bonus    ", "Symbole 1", "Symbole 2", "Symbole 3", "Symbole 4", "Symbole 5", "Symbole 6", "Symbole 7", "Symbole 8"};
+            symblist = new String[]{"Bonus", "Bar", "Seven", "Cherry", "Plum", "Bell", "Melon", "Orange", "Lemon"};
         }
         Random rand = new Random();
         int randomIndex = rand.nextInt(symblist.length);
         this.nom = symblist[randomIndex];
 
-        if (nom.contains("Symbole 1")) {
+        if (nom.contains("Bar")) {
             this.gain5 = 4000;
             this.gain4 = 2000;
             this.gain3 = 1000;
             this.id = 1;
-        } else if (nom.contains("Symbole 2")) {
+        } else if (nom.contains("Seven")) {
             this.gain5 = 3000;
             this.gain4 = 1500;
             this.gain3 = 750;
             this.id = 2;
-        } else if (nom.contains("Symbole 3")) {
+        } else if (nom.contains("Cherry")) {
             this.gain5 = 1500;
             this.gain4 = 750;
             this.gain3 = 500;
             this.id = 3;
-        } else if (nom.contains("Symbole 4")) {
+        } else if (nom.contains("Plum")) {
             this.gain5 = 1500;
             this.gain4 = 1000;
             this.gain3 = 1000;
             this.id = 4;
-        } else if (nom.contains("Symbole 5")) {
+        } else if (nom.contains("Bell")) {
             this.gain5 = 1000;
             this.gain4 = 500;
             this.gain3 = 300;
             this.id = 5;
-        } else if (nom.contains("Symbole 6")) {
+        } else if (nom.contains("Melon")) {
             this.gain5 = 1000;
             this.gain4 = 500;
             this.gain3 = 300;
             this.id = 6;
-        } else if (nom.contains("Symbole 7")) {
+        } else if (nom.contains("Orange")) {
             this.gain5 = 1000;
             this.gain4 = 500;
             this.gain3 = 300;
             this.id = 7;
-        } else if (nom.contains("Symbole 8")) {
+        } else if (nom.contains("Lemon")) {
             this.gain5 = 1000;
             this.gain4 = 500;
             this.gain3 = 300;
