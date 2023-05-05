@@ -13,6 +13,7 @@ public class Machine {
     private int lastGameFreeSpinCount;
 
     public Machine() {
+        // Initialisation des rouleaux de la machine
         this.rouleaux = new ArrayList<Rouleau>();
         this.rouleaux.add(new Rouleau(30, true, true));
         this.rouleaux.add(new Rouleau(30, true, false));
@@ -22,6 +23,7 @@ public class Machine {
     }
 
     public void print3lines() {
+        // Affichage des trois lignes de symboles de la machine
         for (int i = 0; i < 3; i++) {
             for (Rouleau rouleau : rouleaux) {
                 System.out.print(rouleau.getSymboleAtPosition(i).getNom() + " | ");
@@ -31,6 +33,7 @@ public class Machine {
     }
 
     public void roll() {
+        // Lancement des rouleaux avec un nombre aléatoire de décalage
         Random random = new Random();
         int nombreAleatoire = random.nextInt(16) + 5;
 
@@ -41,7 +44,7 @@ public class Machine {
 
 
     public void detecterVictoire() {
-        //3 lines to matrix
+        // Création d'une matrice représentant les symboles de la machine
         Symbole[][] matrix = new Symbole[3][5];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < rouleaux.size(); j++) {
@@ -49,18 +52,21 @@ public class Machine {
             }
         }
 
-        //revert matrix
+        // Inversion de la matrice pour pouvoir effectuer la détection de victoire
         Symbole[][] revertedMatrix = new Symbole[5][3];
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 3; j++) {
                 revertedMatrix[i][j] = matrix[j][i];
             }
         }
+        
+        // Réinitialisation des compteurs de victoire et de free spins
         this.lastGameFreeSpinCount = 0;
         this.lastVictoryCount = 0;
         this.lastVictorySymbol = null;
         this.lastVictoryList = new ArrayList<Symbole>();
 
+        // Boucle pour détecter les victoires dans la matrice
         for(int x = 0; x < 3; x++) {
             for(int y = 0; y < 3; y++) {
 
@@ -95,7 +101,7 @@ public class Machine {
             }
         }  
 
-        //Count free symboles
+        //Compter le nombre de Symboles "Free"
         int freeCount = 0;
         for(int x = 0; x < 5; x++) {
             for(int y = 0; y < 3; y++) {
@@ -109,25 +115,25 @@ public class Machine {
         
     }
 
-
+    //Methode pour donner le Symbole du dernier Spin
     public Symbole getLastVictorySymbol() {
         return lastVictorySymbol;
     }
-
+    
+    //Methode pour donner le Nombre de hit du dernier Spin
     public int getLastVictoryCount() {
         return lastVictoryCount;
     }
-
+    
+    //Methode pour obtenir la liste des Symboles gagnants
     public List<Symbole> getLastVictoryList() {
         return lastVictoryList;
     }
-
+    
+    //Compter le nombre de Symboles Freespins dans le dernier lancer
     public int getLastGameFreeSpinCount() {
         return lastGameFreeSpinCount;
     }
     
     
 }
-
-
-
