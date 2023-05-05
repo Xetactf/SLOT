@@ -11,6 +11,7 @@ public class User {
     private Scanner scanner;
     private int multiplicateur;
     private int freeSpins;
+    private boolean freespinsStatus;
     
     // Constructeur de l'utilisateur
     public User(Machine machine) {
@@ -19,7 +20,7 @@ public class User {
         this.username = scanner.nextLine();
         this.balance = 250000;
         this.machine = machine;
-        this.mise = -1;
+        this.mise = 0;
         this.multiplicateur = 1;
         this.freeSpins = 0;
     }
@@ -31,9 +32,12 @@ public class User {
     
     // Méthode pour lancer la machine
     public void lancerMachine() {
+    	this.freespinsStatus = false;
        // Si l'utilisateur a des free spins, on les utilise
         if(this.freeSpins > 0) {
+        	this.freespinsStatus = true;
             this.freeSpins--;
+            this.mise = 2000;
             System.out.println("\nLancement du free spin Suivant ... ");
             try {
                 Thread.sleep(3000);
@@ -123,9 +127,11 @@ public class User {
 
         } else {
             // Si le joueur perd
-            System.out.println("\nVous avez perdu.");
-            this.balance -= this.mise;
-            this.mise = -1;
+            System.out.println("\nVous avez perdu." + this.freespinsStatus);
+            if(!this.freespinsStatus) {
+                this.balance -= this.mise;
+            }
+            this.mise = 0;
         }
         // Afficher le solde et lancer la machine à sous pour un nouveau tour
         this.printSolde();
