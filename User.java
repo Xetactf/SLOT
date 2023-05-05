@@ -127,7 +127,7 @@ public class User {
 
         } else {
             // Si le joueur perd
-            System.out.println("\nVous avez perdu." + this.freespinsStatus);
+            System.out.println("\nVous avez perdu.");
             if(!this.freespinsStatus) {
                 this.balance -= this.mise;
             }
