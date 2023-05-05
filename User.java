@@ -76,6 +76,7 @@ public class User {
 
         this.machine.detecterVictoire();
         if(this.machine.getLastGameFreeSpinCount() >2) {
+            // Si l'utilisateur vient de gagner des freespins, demander le mode 
             while(this.freeSpins < 1){
                 System.out.println("\nVous avez gagne " + this.machine.getLastGameFreeSpinCount() + " free spins!");
                 System.out.println("Choisissez votre nombre de free spins (15, 10, 5): ");
@@ -99,6 +100,7 @@ public class User {
                 }
             }
         } else if(this.machine.getLastVictoryCount() > 2) {
+            // Si le joueur gagne avec 3 symboles ou plus
             System.out.println("\nVous avez gagne " + this.machine.getLastVictoryCount() + " fois " + this.machine.getLastVictorySymbol().getNom() + "!");
             int gain = 0;
             if(this.machine.getLastVictoryCount() == 3) {
@@ -108,27 +110,30 @@ public class User {
             } else if(this.machine.getLastVictoryCount() == 5) {
                 gain = this.machine.getLastVictorySymbol().getGain5() * (this.mise / 2000);
             }
-
+            
+            // Mettre à jour le solde du joueur
             this.balance += this.mise;
             this.balance += gain*this.multiplicateur;
             System.out.println("Vous avez gagne " + gain*multiplicateur + " credits.");
 
-            //Regerate each symbol of the list 
+            // Réinitialiser chaque symbole de la liste
             for (Symbole symbole : this.machine.getLastVictoryList()) {
                 symbole.regeneratesymb();
             }
 
         } else {
+            // Si le joueur perd
             System.out.println("\nVous avez perdu.");
             this.balance -= this.mise;
             this.mise = -1;
         }
+        // Afficher le solde et lancer la machine à sous pour un nouveau tour
         this.printSolde();
         this.lancerMachine();
         
     }
 
-
+    // Méthode pour fermer le scanner
     public void closeScanner() {
         scanner.close();
     }
